@@ -1,6 +1,8 @@
 #pragma once // incluir o arquivo apenas uma vez
 
-#include "interfaces_comunicacao.hpp"
+#include "dominios.hpp"
+
+class ICamadaFisicaReceptora; // Classe declarada em interfaces_comunicacao.hpp
 
 class MeioFisico {
  public:
