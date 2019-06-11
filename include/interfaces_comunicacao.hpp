@@ -4,8 +4,8 @@
 #include "codificador_de_bits.hpp"
 #include "meio_fisico.hpp"
 
-class AplicacaoReceptora; // Classe é declarada no arquivo aplicacao.hpp
-                          // porém o arquivo inclui este.
+class AplicacaoReceptora; // Classe AplicacaoReceptora declarada no arquivo aplicacao.hpp
+                          // por�m o arquivo inclui este.
 
 class ICamadaAplicacaoReceptora {
  public:
