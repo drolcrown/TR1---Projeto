@@ -2,10 +2,13 @@
 
 #include <string>
 #include <vector>
+#include <bitset>
+
+using namespace std;
 
 class Mensagem : std::string {};
 
-/** @brief Bit é tipo de dado que pode ser 0 ou 1. */
+/** @brief Bit ï¿½ tipo de dado que pode ser 0 ou 1. */
 typedef bool Bit;
 
 /** @brief Quadro Ã© o tipo de dado que representa um vetor de Bits na camada de
