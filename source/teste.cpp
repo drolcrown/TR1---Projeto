@@ -7,19 +7,53 @@
 */
 
 #include <iostream>
-#include <ctime>
 #include <vector>
 
 using namespace std;
 
+class GeradorDeQuadros{
+    private:
+        vector<bool> fluxo;
+        
+    public:
+        vector<bool> gerarQuadro(int tamanhoQuadro){
+	        for(int i = 0; i < tamanhoQuadro; i++){
+                fluxo.push_back(rand() % 2);
+             }
+            return fluxo;
+        }
+    
+};
 
-int main(int argc, char *argv[])
-{
-	// vector<bool> fluxo(4) = {false, true, true, false};
-	vector<int> vect{ false, true, false, true, true, false, true, false}; 
-  
-    for (int x : vect) 
-        cout << x << " "; 
+// Classes que implementam a interface ICodificadorDeBits
+class CodificadorManchester {
+    private:
+        vector<bool> fluxo;
+
+   public:
+      vector<bool> codificar(const fluxo&){
+         cout << fluxo << endl;
+		 return fluxo;
+      }
+
+    //   Quadro decodificar(const vector<bool>){
+         
+    //   }
+};
+
+int main(int argc, char *argv[]){
+	GeradorDeQuadros gerador;
+	vector<bool> fluxo = gerador.gerarQuadro(10);
+
+	CodificadorManchester cod;
+	// vector<int> vect{ false, true, false, true, true, false, true, false}; 
+	int num;
+
+    for (int i = 0; i<  1000; i ++) {
+		if(i %60){
+        	cout << i%60 << endl; 
+		}
+	}
 
 	// fluxo.push_back(1);
 	// fluxo.push_back(1);
@@ -43,7 +77,7 @@ int main(int argc, char *argv[])
 		// t = clock() - t;
 		// printf ("It took me %lu clicks (%f seconds).\n",t,((float)t)/10000);
 		// return 0;
-	 cout << (A ^ B) << endl;
+	//  cout << (A ^ B) << endl;
 	//  cout << fluxo[0] << endl;
 
     

@@ -1,12 +1,15 @@
-#include "include/dominio"
+#include "dominios.hpp"
 
-class geradorDeQuadros{
+class GeradorDeQuadros{
     private:
         FluxoDeBits fluxo;
         
     public:
-        gerarQuadro(int tamanhoQuadro){
-            // fluxo
+        FluxoDeBits gerarQuadro(int tamanhoQuadro){
+	        for(int i = 0; i < tamanhoQuadro; i++){
+                fluxo.push_back(rand() % 2);
+            }
+            return fluxo;
         }
-    ;
-}
+    
+};

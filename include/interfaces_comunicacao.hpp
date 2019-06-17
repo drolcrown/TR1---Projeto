@@ -5,7 +5,7 @@
 #include "meio_fisico.hpp"
 
 class AplicacaoReceptora; // Classe AplicacaoReceptora declarada no arquivo aplicacao.hpp
-                          // porém o arquivo inclui este.
+                          // porï¿½m o arquivo inclui este.
 
 class ICamadaAplicacaoReceptora {
  public:
