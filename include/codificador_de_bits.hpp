@@ -8,7 +8,7 @@ class ICodificadorDeBits {
   virtual Quadro decodificar(const FluxoDeBits&) = 0;
 };
 
-class CodificadorManchesterDiferencial : ICodificadorDeBits {
+class CodificadorManchesterDiferencial : public ICodificadorDeBits {
  public:
   FluxoDeBits codificar(const Quadro&) override;
   Quadro decodificar(const FluxoDeBits&) override;

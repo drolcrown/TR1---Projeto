@@ -6,7 +6,7 @@ FluxoDeBits CodificadorManchesterDiferencial::codificar(const Quadro& quadro) {
   FluxoDeBits fluxo_de_bits;
   fluxo_de_bits.reserve(tamanho_fluxo);
   Bit ultimo_bit = 1;
-  for (auto i = 0; i < tamanho_quadro; ++i) {
+  for (int i = 0; i < tamanho_quadro; ++i) {
     if (quadro[i] == 0) {
       fluxo_de_bits.push_back(!ultimo_bit);
       fluxo_de_bits.push_back(ultimo_bit);
