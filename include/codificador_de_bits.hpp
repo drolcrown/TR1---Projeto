@@ -11,5 +11,5 @@ class ICodificadorDeBits {
 class CodificadorManchesterDiferencial : ICodificadorDeBits {
  public:
   FluxoDeBits codificar(const Quadro&) override;
-  Quadro decodificar(const FluxoDeBits&) override { };
+  Quadro decodificar(const FluxoDeBits&) override;
 };

@@ -18,3 +18,23 @@ FluxoDeBits CodificadorManchesterDiferencial::codificar(const Quadro& quadro) {
   }
   return fluxo_de_bits;
 }
+
+Quadro CodificadorManchesterDiferencial::decodificar(const FluxoDeBits& fluxo_de_bits) {
+  int tamanho_fluxo = fluxo_de_bits.size();
+  int tamanho_quadro = tamanho_fluxo / 2;
+  Quadro quadro;
+  Bit ultimo_bit = 1;
+  for (int i = 0 ; i < tamanho_quadro; ++i) {
+    if (fluxo_de_bits[2*i] == !ultimo_bit && fluxo_de_bits[2*i+1] == ultimo_bit) {
+      quadro.push_back(0);
+    }
+    else if (fluxo_de_bits[2*i] == ultimo_bit && fluxo_de_bits[2*i+1] == !ultimo_bit) {
+      quadro.push_back(1);
+      ultimo_bit = !ultimo_bit;
+    }
+    else {
+      //error
+    }
+  }
+  return quadro;
+}

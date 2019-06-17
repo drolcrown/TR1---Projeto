@@ -10,19 +10,23 @@ TEST_CASE("CodificadorManchesterDiferencial") {
   quadro.push_back(0);
   quadro.push_back(0);
   quadro.push_back(1);
+  FluxoDeBits fluxo_de_bits;
+  fluxo_de_bits.push_back(0);
+  fluxo_de_bits.push_back(1);
+  fluxo_de_bits.push_back(1);
+  fluxo_de_bits.push_back(0);
+  fluxo_de_bits.push_back(1);
+  fluxo_de_bits.push_back(0);
+  fluxo_de_bits.push_back(1);
+  fluxo_de_bits.push_back(0);
+  fluxo_de_bits.push_back(0);
+  fluxo_de_bits.push_back(1);
   SECTION ("codificar") {
     CodificadorManchesterDiferencial codificador;
-    FluxoDeBits fluxo_esperado;
-    fluxo_esperado.push_back(0);
-    fluxo_esperado.push_back(1);
-    fluxo_esperado.push_back(1);
-    fluxo_esperado.push_back(0);
-    fluxo_esperado.push_back(1);
-    fluxo_esperado.push_back(0);
-    fluxo_esperado.push_back(1);
-    fluxo_esperado.push_back(0);
-    fluxo_esperado.push_back(0);
-    fluxo_esperado.push_back(1);
-    CHECK(fluxo_esperado == codificador.codificar(quadro));
+    CHECK(fluxo_de_bits == codificador.codificar(quadro));
   } // SECTION
+  SECTION("decodificar") {
+    CodificadorManchesterDiferencial codificador;
+    CHECK(quadro == codificador.decodificar(fluxo_de_bits));
+  }
 } // TEST_CASE
