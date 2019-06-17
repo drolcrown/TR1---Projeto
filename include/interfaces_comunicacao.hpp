@@ -5,14 +5,14 @@
 #include "meio_fisico.hpp"
 
 class AplicacaoReceptora; // Classe AplicacaoReceptora declarada no arquivo aplicacao.hpp
-                          // porém o arquivo inclui este.
+                          // porï¿½m o arquivo inclui este.
 
 class ICamadaAplicacaoReceptora {
  public:
   virtual void receber(const Quadro&) = 0;
   void configAplicacaoReceptora(AplicacaoReceptora*);
- protected:
   virtual Mensagem convQuadroPorMensagem(const Quadro&) = 0;
+ public:
   AplicacaoReceptora* aplicacao = nullptr;
 };
 
@@ -56,7 +56,7 @@ class ICamadaAplicacaoTransmissora {
  public:
   virtual void transmitir(const Mensagem&) = 0;
   void configCamadaEnlaceTransmissora(ICamadaEnlaceTransmissora*); 
- protected:
   virtual Quadro convMensagemPorQuadro(const Mensagem&) = 0;
+public:
   ICamadaEnlaceTransmissora* camada_enlace = nullptr;
 };
