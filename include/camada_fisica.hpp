@@ -1,9 +1,11 @@
 #pragma once
 
-class CamadaFisicaTransmissora {
+class CamadaFisicaTransmissora : public ICamadaFisicaTransmissora {
+	void transmitir(const Quadro&);
 
 };
 
-class CamadaFisicaReceptora {
+class CamadaFisicaReceptora : public ICamadaFisicaReceptora {
+	void receber(const FluxoDeBits&);
 
 };
