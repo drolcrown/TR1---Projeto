@@ -29,7 +29,7 @@ class ICamadaFisicaReceptora {
   virtual void receber(const FluxoDeBits&) = 0;
   void configCamadaEnlaceReceptora(ICamadaEnlaceReceptora*);
   void configCodificador(ICodificadorDeBits*);
- private:
+ protected:
   ICamadaEnlaceReceptora* camada_enlace = nullptr;
   ICodificadorDeBits* codificador = nullptr;
 };
