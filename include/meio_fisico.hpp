@@ -14,5 +14,5 @@ class MeioFisico {
   double taxaDeErro(double taxa);
 
  public:
-  ICamadaFisicaReceptora* camada_fisica_receptora;
+  ICamadaFisicaReceptora* camada_fisica_receptora = nullptr;
 };

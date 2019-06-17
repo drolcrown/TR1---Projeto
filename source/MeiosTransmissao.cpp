@@ -1,10 +1,7 @@
-#include <iostream>
 #include "meio_fisico.hpp"
+#include "interfaces_comunicacao.hpp"
 
 using namespace std;
- 
-class ICamadaFisicaReceptora; // Classe declarada em interfaces_comunicacao.hpp
-class ICamadaFisicaTransmissora; // Classe declarada em interfaces_comunicacao.hpp
 
 class Cabos: public MeioFisico{
     
@@ -15,26 +12,12 @@ class Cabos: public MeioFisico{
         }
 
         void configCamadaFisicaReceptora(ICamadaFisicaReceptora* camadaReceptora){
-            cout << camadaReceptora << endl;
+            this->camada_fisica_receptora = camadaReceptora;
+            cout << "Receptor Configurado" << endl;
         }
         
         void transmitir(FluxoDeBits& fluxoDeBits){
-            cout << fluxoDeBits << endl;
+           this->camada_fisica_receptora->receber(fluxoDeBits);
+            cout << "Fluxo Transmitido" << endl;
         }
 };
- 
-int main(void) {
-    Cabos cab;
-    FluxoDeBits *fluxo;
-    
-    fluxo.push_back(1);
-    fluxo.push_back(0);
-    fluxo.push_back(1);
-    //  1, 0, 1, 0, 1, 0, 0, 0, 1, 1 ,0  {true, false, true};
-
-    cab.taxaDeErro(2);
-    cab.configCamadaFisicaReceptora(cab.camada_fisica_receptora);
-    cab.transmitir(fluxo);
-
-   return 0;
-}

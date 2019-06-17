@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-class Mensagem : std::string {};
+class Mensagem : public std::string {};
 
 /** @brief Bit � tipo de dado que pode ser 0 ou 1. */
 typedef bool Bit;
