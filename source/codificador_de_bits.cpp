@@ -64,10 +64,5 @@ FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro)
       fluxo.push_back(1);
       fluxo.push_back(0); //se é 1 manda 10
     }
-
-    else
-    {
-      std::cout << "Algo de errado nao esta certo\n" // era pra ser só 0 e 1, algo tá muito errado
-    }
   }
 };
