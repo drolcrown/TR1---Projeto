@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+
 #include "interfaces_comunicacao.hpp"
 
 using namespace std;
@@ -10,6 +11,8 @@ class AplicacaoTransmissora {
   void run();
   void configCamadaAplicacaoTransmissora(ICamadaAplicacaoTransmissora *appTransmissora);
   Mensagem criarMensagem();
+ private:
+  ICamadaAplicacaoTransmissora* camada_aplicacao = nullptr;
 };
 
 class AplicacaoReceptora {
