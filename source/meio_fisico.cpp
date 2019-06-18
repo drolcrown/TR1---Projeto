@@ -7,7 +7,6 @@ double MeioFisico::taxaDeErro(double taxa) {
 }
 
 void MeioFisico::configCamadaFisicaReceptora(ICamadaFisicaReceptora* camadaReceptora){
-    std::cout << "Camada Fisica Receptora Configurada" << std::endl;
     this->camada_fisica_receptora = camadaReceptora;
 }
 

@@ -5,7 +5,7 @@ using namespace std;
 void CamadaAplicacaoTransmissora :: transmitir(const Mensagem &mensagem){
      
     Quadro quadro = convMensagemPorQuadro(mensagem);
-    std::cout << "Mensagem convertida para binario: " << quadro << std::endl;
+    std::cout << "Camada Aplicacao transmitiu: " << quadro << std::endl;
     camada_enlace->transmitir(quadro);
 
 }
@@ -34,7 +34,7 @@ Quadro CamadaAplicacaoTransmissora:: convMensagemPorQuadro(const Mensagem &mensa
 }
 
 void CamadaAplicacaoReceptora :: receber(const Quadro &quadro){
-
+    std::cout << "Camada Aplicacao recebeu:    " << quadro << '\n';
     Mensagem mensagem = convQuadroPorMensagem(quadro);
     aplicacao->receber(mensagem);
 
