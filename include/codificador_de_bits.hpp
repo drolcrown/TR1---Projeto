@@ -19,12 +19,13 @@ class CodificadorBinario : public ICodificadorDeBits //NRZ
 
 };
 
+/*
 class CodificadorManchester: public ICodificadorDeBits {
    public:
       FluxoDeBits codificar(const Quadro& quadro){
          FluxoDeBits novoQuadro;
          for(int i = 0; i < quadro.size(); i++){
-            cout << quadro[i] << endl;
+            std::cout << quadro[i] << std::endl;
             codificarComClock(novoQuadro, quadro[i], 2);
          }
          return novoQuadro;
@@ -37,6 +38,7 @@ class CodificadorManchester: public ICodificadorDeBits {
          
       }
 };
+*/
 
 class CodificadorManchesterDiferencial : public ICodificadorDeBits { // Manchester Diferencial
  public:
