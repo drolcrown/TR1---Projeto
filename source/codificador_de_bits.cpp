@@ -41,15 +41,15 @@ Quadro CodificadorManchesterDiferencial::decodificar(const FluxoDeBits& fluxo_de
 
 // CodificadorManchester //////////////////////////////////////////////////////
 
-FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro){
+FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro){ // codifica estilo Manchester
 
   // 0 = 01 e 1 = 10 ,vetor tem o dobro do tamanho
 
-  int i, aux = 0;
+  int i;
   FluxoDeBits fluxo;
   fluxo.reserve(2 * quadro.size());
 
-  for (int i = 0; i < quadro.size(); ++i){
+  for (i = 0; i < quadro.size(); ++i){
 
     if (quadro[i] == 0){
       fluxo.push_back(0);
@@ -61,11 +61,40 @@ FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro){
       fluxo.push_back(0); //se é 1 manda 10
     }
   }
-};
+  
+  return fluxo;
+}
+
+Quadro CodificadorManchester::decodificar(const FluxoDeBits& fluxo_de_bits) { // decodifica estilo Manchester
+
+  // 01 = 0 e 10 = 1 ,vetor tem o metade do tamanho
+  Quadro quadro;
+
+  quadro.reserve(fluxo_de_bits.size() / 2 ); //quadro tem metade do tamanho de fluxo_de_bits
+
+  for (int i = 0; i < fluxo_de_bits.size(); i++){
+
+    if (fluxo_de_bits[i] == 0 && fluxo_de_bits[i+1] == 1){ // se for 01 manda 0
+      quadro.push_back(0);
+    }
+
+    else if (fluxo_de_bits[i] == 1 && fluxo_de_bits[i+1] == 0){//se for 10 manda 1
+      quadro.push_back(1);
+    }
+
+    else{
+      // se deu erro manda nada, quadro não terá metade do tamanho de fluxo_de_bits
+    }
+
+    i++; //tem que ser incrementado duas vezes pois quadro tem metade do tamanho de fluxo_de_bits
+  }
+
+  return quadro;
+}
 
 // CodificadorBinario /////////////////////////////////////////////////////////
 
-FluxoDeBits CodificadorBinario::codificar(const Quadro& quadro) {
+FluxoDeBits CodificadorBinario::codificar(const Quadro& quadro) { // codifica estilo NRZ
 
 	// 0 = 0 e 1 = 1 na NRZ ou seja, nÃ£o precisa fazer nada
 
@@ -75,4 +104,18 @@ FluxoDeBits CodificadorBinario::codificar(const Quadro& quadro) {
 	for (int i = 0; i < quadro.size(); ++i){ 
 		fluxo[i] = quadro[i]; // fluxo = quadro, bit a bit
 	}
+
+  return fluxo;
+}
+
+Quadro CodificadorManchester::decodificar(const FluxoDeBits& fluxo_de_bits) { // decodifica estilo NRZ
+
+  Quadro quadro;
+  quadro.reserve(fluxo_de_bits.size() / 2);
+
+  for (int i = 0; i < fluxo_de_bits.size(); i++){ 
+    quadro[i] = fluxo_de_bits[i]; // quadro = fluxo_de_bits, bit a bit
+  }
+
+  return quadro;
 }
