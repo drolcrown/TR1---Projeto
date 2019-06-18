@@ -13,13 +13,13 @@ void AplicacaoTransmissora::configCamadaAplicacaoTransmissora(ICamadaAplicacaoTr
 
 Mensagem  AplicacaoTransmissora::criarMensagem(){
     Mensagem msg;
-    cout << "Digite sua mensagem: " << endl;
-    getline(cin, msg);
+    std::cout << "Digite sua mensagem: " << std::endl;
+    std::getline(cin, msg);
 
     return msg;
 }
 
 void AplicacaoReceptora::receber(const Mensagem& msg){
     //recebe mensagem e trata.
-    cin << msg << endl;
+    std::cout << msg << endl;
 }
