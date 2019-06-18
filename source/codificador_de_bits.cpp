@@ -41,8 +41,7 @@ Quadro CodificadorManchesterDiferencial::decodificar(const FluxoDeBits& fluxo_de
 
 // CodificadorManchester //////////////////////////////////////////////////////
 
-FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro)
-{
+FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro){
 
   // 0 = 01 e 1 = 10 ,vetor tem o dobro do tamanho
 
@@ -50,19 +49,30 @@ FluxoDeBits CodificadorManchester::codificar(const Quadro &quadro)
   FluxoDeBits fluxo;
   fluxo.reserve(2 * quadro.size());
 
-  for (int i = 0; i < quadro.size(); ++i)
-  {
+  for (int i = 0; i < quadro.size(); ++i){
 
-    if (quadro[i] == 0)
-    {
+    if (quadro[i] == 0){
       fluxo.push_back(0);
       fluxo.push_back(1); //se é 0 manda 01
     }
 
-    else if (quadro[i] == 1)
-    {
+    else if (quadro[i] == 1){
       fluxo.push_back(1);
       fluxo.push_back(0); //se é 1 manda 10
     }
   }
 };
+
+// CodificadorBinario /////////////////////////////////////////////////////////
+
+FluxoDeBits CodificadorBinario::codificar(const Quadro& quadro) {
+
+	// 0 = 0 e 1 = 1 na NRZ ou seja, nÃ£o precisa fazer nada
+
+	FluxoDeBits fluxo; // vetor fluxo de bits
+	fluxo.reserve(quadro.size()) ; //tamanho do vetor fluxo = tamanho do vetor quadro
+
+	for (int i = 0; i < quadro.size(); ++i){ 
+		fluxo[i] = quadro[i]; // fluxo = quadro, bit a bit
+	}
+}
