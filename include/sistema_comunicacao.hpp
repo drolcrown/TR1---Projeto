@@ -24,6 +24,7 @@ class Receptor {
  public:
   Receptor();
   void configCodificadorDeBits(ICodificadorDeBits*);
+  void configMeioFisico(MeioFisico*);
  private:
   AplicacaoReceptora aplicacao;
   CamadaAplicacaoReceptora camada_aplicacao;

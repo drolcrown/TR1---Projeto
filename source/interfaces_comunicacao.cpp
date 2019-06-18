@@ -12,6 +12,10 @@ void ICamadaFisicaReceptora::configCamadaEnlaceReceptora(ICamadaEnlaceReceptora 
     this->camada_enlace = camada_enlace;
 }
 
+void ICamadaFisicaReceptora::configMeioFisico(MeioFisico* meio_fisico) {
+    meio_fisico->configCamadaFisicaReceptora(this);
+}
+
 void ICamadaFisicaReceptora::configCodificador(ICodificadorDeBits* codificador) {
     this->codificador = codificador;
 }

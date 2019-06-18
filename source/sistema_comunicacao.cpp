@@ -32,12 +32,17 @@ void Receptor::configCodificadorDeBits(ICodificadorDeBits* codificador) {
   this->camada_fisica.configCodificador(codificador);
 }
 
+void Receptor::configMeioFisico(MeioFisico* meio_fisico) {
+  this->camada_fisica.configMeioFisico(meio_fisico);
+}
+
 // SistemaDeComunicacao ///////////////////////////////////////////////////////
 
 SistemaDeComunicacao::SistemaDeComunicacao() {
-  this->transmissor.configMeioFisico(&meio_fisico);
+  this->transmissor.configMeioFisico(&this->meio_fisico);
   this->transmissor.configCodificadorDeBits(&this->codificador);
   this->receptor.configCodificadorDeBits(&this->codificador);
+  this->receptor.configMeioFisico(&this->meio_fisico);
 }
 
 void SistemaDeComunicacao::run() {
