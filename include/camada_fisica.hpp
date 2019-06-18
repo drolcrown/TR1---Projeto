@@ -4,11 +4,11 @@
 #include "dominios.hpp"
 
 class CamadaFisicaTransmissora : public ICamadaFisicaTransmissora {
-	void transmitir(const Quadro&);
+	void transmitir(const Quadro&) override;
 
 };
 
 class CamadaFisicaReceptora : public ICamadaFisicaReceptora {
-	void receber(const FluxoDeBits&);
+	void receber(const FluxoDeBits&) override;
 
 };

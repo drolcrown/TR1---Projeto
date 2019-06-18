@@ -1,23 +1,17 @@
 #include "meio_fisico.hpp"
 #include "interfaces_comunicacao.hpp"
 
-using namespace std;
+double MeioFisico::taxaDeErro(double taxa) { 
+    std::cout << taxa << std::endl;
+    return taxa;
+}
 
-class Cabos: public MeioFisico{
-    
-   public:
-        double taxaDeErro(double taxa) { 
-            cout << taxa << endl;
-            return taxa;
-        }
+void MeioFisico::configCamadaFisicaReceptora(ICamadaFisicaReceptora* camadaReceptora){
+    this->camada_fisica_receptora = camadaReceptora;
+    std::cout << "Receptor Configurado" << std::endl;
+}
 
-        void configCamadaFisicaReceptora(ICamadaFisicaReceptora* camadaReceptora){
-            this->camada_fisica_receptora = camadaReceptora;
-            cout << "Receptor Configurado" << endl;
-        }
-        
-        void transmitir(FluxoDeBits& fluxoDeBits){
-           this->camada_fisica_receptora->receber(fluxoDeBits);
-            cout << "Fluxo Transmitido" << endl;
-        }
-};
+void MeioFisico::transmitir(const FluxoDeBits& fluxoDeBits){
+    this->camada_fisica_receptora->receber(fluxoDeBits);
+    std::cout << "Fluxo Transmitido" << std::endl;
+}
