@@ -95,14 +95,12 @@ Quadro CodificadorManchester::decodificar(const FluxoDeBits& fluxo_de_bits) { //
 // CodificadorBinario /////////////////////////////////////////////////////////
 
 FluxoDeBits CodificadorBinario::codificar(const Quadro& quadro) { // codifica estilo NRZ
-
 	// 0 = 0 e 1 = 1 na NRZ ou seja, nÃ£o precisa fazer nada
-
 	FluxoDeBits fluxo; // vetor fluxo de bits
 	fluxo.reserve(quadro.size()) ; //tamanho do vetor fluxo = tamanho do vetor quadro
 
 	for (int i = 0; i < quadro.size(); ++i){ 
-		fluxo[i] = quadro[i]; // fluxo = quadro, bit a bit
+		fluxo.push_back(quadro[i]); // fluxo = quadro, bit a bit
 	}
 
   return fluxo;
@@ -114,7 +112,7 @@ Quadro CodificadorBinario::decodificar(const FluxoDeBits& fluxo) { // codifica e
 	quadro.reserve(fluxo.size()) ; //tamanho do vetor fluxo = tamanho do vetor fluxo
 
 	for (int i = 0; i < fluxo.size(); ++i){ 
-		quadro[i] = fluxo[i]; // fluxo = fluxo, bit a bit
+		quadro.push_back(fluxo[i]); // fluxo = fluxo, bit a bit
 	}
 
   return quadro;

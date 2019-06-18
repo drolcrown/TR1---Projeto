@@ -37,6 +37,7 @@ class SistemaDeComunicacao {
   SistemaDeComunicacao();
   void run();
  private:
+  // ICodificadorDeBits*  codificador; 
   CodificadorBinario codificador; // Altere essa linha para alterar o codificador.
   Transmissor transmissor;
   Receptor receptor;
