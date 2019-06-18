@@ -3,56 +3,22 @@
 #include <iostream>
 #include "dominios.hpp"
 
-using namespace std;
 
-class ICodificadorDeBits {
+class ICodificadorDeBits { // NRZ, NRZI e Manchester
  public:
   virtual FluxoDeBits codificar(const Quadro&) = 0;
-  virtual Quadro decodificar(const FluxoDeBits) = 0;
+  virtual Quadro decodificar(const FluxoDeBits&) = 0;
 };
 
-FluxoDeBits ICodificadorDeBits:: codificar(const Quadro& quadro){
-   FluxoDeBits fluxo;
 
-   for(int i = 0; i < quadro.size(); i++){
-      fluxo.push_back(quadro[i]);
-   }
+class CodificadorBinario : public ICodificadorDeBits //NRZ
+{
+	public:
+		FluxoDeBits codificar(const Quadro&) override;
+		Quadro decodificar (const FluxoDeBits&) override;
 
-   return fluxo;
-}
+};
 
-
-Quadro ICodificadorDeBits:: codificar(const FluxoDeBits& fluxo){
-   Quadro quadro;
-
-   for(int i = 0; i < fluxo.size(); i++){
-      quadro.push_back(fluxo[i]);
-   }
-   
-   return quadro;
-}
-
-  // std::vector<Bit> codificarComClock(vector<Bit> quadro, Bit bit, int frequencia);
-// std::vector<Bit> ICodificadorDeBits::codificarComClock(std::vector<Bit> quadro, Bit bit, int frequencia){
-//   Bit clock = false;
-//   for(int i =0; i < frequencia; i++){
-//     // switch (operador){
-//     //   case '^':
-//         quadro.push_back(bit ^ clock);
-//         clock = !clock;
-//         // break;
-      
-//       // default:
-//       //   quadro.push_back(bit + clock);
-//       //   clock = !clock; 
-//       //   break;
-//     // }
-//   }
-//   return quadro;
-// } 
-
-
-// Classes que implementam a interface ICodificadorDeBits
 class CodificadorManchester: public ICodificadorDeBits {
    public:
       FluxoDeBits codificar(const Quadro& quadro){
@@ -70,4 +36,10 @@ class CodificadorManchester: public ICodificadorDeBits {
          return  qd;
          
       }
+};
+
+class CodificadorManchesterDiferencial : public ICodificadorDeBits { // Manchester Diferencial
+ public:
+  FluxoDeBits codificar(const Quadro&) override;
+  Quadro decodificar(const FluxoDeBits&) override;
 };

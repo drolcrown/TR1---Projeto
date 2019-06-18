@@ -8,30 +8,32 @@
 #include "codificador_de_bits.hpp"
 
 class Transmissor {
+ public:
+  Transmissor();
+  void run();
+  void configMeioFisico(MeioFisico*);
+  void configCodificadorDeBits(ICodificadorDeBits*);
  private:
   AplicacaoTransmissora aplicacao;
   CamadaAplicacaoTransmissora camada_aplicacao;
   CamadaEnlaceTransmissora camada_enlace;
   CamadaFisicaTransmissora camada_fisica;
-  MeioFisico* meio_fisico = nullptr;
- public:
-  void run();
-  void configMeioFisico(MeioFisico*);
-  void configCodificadorDeBits(ICodificadorDeBits*);
 };
 
 class Receptor {
+ public:
+  Receptor();
+  void configCodificadorDeBits(ICodificadorDeBits*);
  private:
   AplicacaoReceptora aplicacao;
   CamadaAplicacaoReceptora camada_aplicacao;
   CamadaEnlaceReceptora camada_enlace;
   CamadaFisicaReceptora camada_fisica;
- public:
-  void configCodificadorDeBits(ICodificadorDeBits*);
 };
 
 class SistemaDeComunicacao {
  public:
+  SistemaDeComunicacao();
   void run();
  private:
   Transmissor transmissor;
