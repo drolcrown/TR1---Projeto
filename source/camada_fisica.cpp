@@ -7,7 +7,7 @@ void CamadaFisicaTransmissora::transmitir(const Quadro& quadro) {
 
 	std::cout
 		<< esc::color::foreground::BRIGHT_RED  // Transformar texto para vermelho 
-		<< "Camada Fisica transmitiu:    " << quadro << '\n'
+		<< "Camada Fisica transmitiu:    " << fluxo << '\n'
 		<< esc::RESET; // Resetar para configura??es originais de texto.
 	;
 	meio_fisico->transmitir(fluxo); //meio fisico manda o fluxo codificado
