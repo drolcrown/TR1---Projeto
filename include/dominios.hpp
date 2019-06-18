@@ -5,9 +5,7 @@
 #include <bitset>
 #include <sstream>
 
-using namespace std;
-
-class Mensagem : public string {};
+class Mensagem : public std::string {};
 
 /** @brief Bit � tipo de dado que pode ser 0 ou 1. */
 typedef bool Bit;
