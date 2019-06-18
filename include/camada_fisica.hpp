@@ -2,6 +2,7 @@
 
 #include "interfaces_comunicacao.hpp"
 #include "dominios.hpp"
+#include "escape.hpp"
 
 class CamadaFisicaTransmissora : public ICamadaFisicaTransmissora {
 	void transmitir(const Quadro&) override;

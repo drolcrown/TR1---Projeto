@@ -4,6 +4,7 @@
 
 #include "aplicacao.hpp"
 #include "interfaces_comunicacao.hpp"
+#include "escape.hpp"
 
     class CamadaAplicacaoTransmissora : public ICamadaAplicacaoTransmissora
 {

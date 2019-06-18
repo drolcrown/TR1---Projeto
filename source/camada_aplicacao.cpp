@@ -5,7 +5,11 @@ using namespace std;
 void CamadaAplicacaoTransmissora :: transmitir(const Mensagem &mensagem){
      
     Quadro quadro = convMensagemPorQuadro(mensagem);
-    std::cout << "Camada Aplicacao transmitiu: " << quadro << std::endl;
+    std::cout
+        << esc::color::foreground::BRIGHT_BLUE  // Transformar texto para azul 
+        << "Camada Aplicacao transmitiu: " << quadro << std::endl
+        << esc::RESET // Resetar configurações de cores de texto
+    ;
     camada_enlace->transmitir(quadro);
 
 }
@@ -34,7 +38,11 @@ Quadro CamadaAplicacaoTransmissora:: convMensagemPorQuadro(const Mensagem &mensa
 }
 
 void CamadaAplicacaoReceptora :: receber(const Quadro &quadro){
-    std::cout << "Camada Aplicacao recebeu:    " << quadro << '\n';
+    std::cout 
+        << esc::color::foreground::BRIGHT_BLUE  // Transformar texto para azul 
+        << "Camada Aplicacao recebeu:    " << quadro << '\n'
+        << esc::RESET
+    ;
     Mensagem mensagem = convQuadroPorMensagem(quadro);
     aplicacao->receber(mensagem);
 
