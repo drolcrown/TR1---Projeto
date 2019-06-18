@@ -12,7 +12,7 @@ class ICamadaAplicacaoReceptora {
   virtual void receber(const Quadro&) = 0;
   void configAplicacaoReceptora(AplicacaoReceptora*);
   virtual Mensagem convQuadroPorMensagem(const Quadro&) = 0;
- public:
+ protected:
   AplicacaoReceptora* aplicacao = nullptr;
 };
 
@@ -20,7 +20,7 @@ class ICamadaEnlaceReceptora {
  public:
   void virtual receber(const Quadro&) = 0;
   void configCamadaAplicacaoReceptora(ICamadaAplicacaoReceptora*);
- private:
+ protected:
   ICamadaAplicacaoReceptora* camada_aplicacao = nullptr;
 };
 
@@ -57,6 +57,6 @@ class ICamadaAplicacaoTransmissora {
   virtual void transmitir(const Mensagem&) = 0;
   void configCamadaEnlaceTransmissora(ICamadaEnlaceTransmissora*); 
   virtual Quadro convMensagemPorQuadro(const Mensagem&) = 0;
-public:
+protected:
   ICamadaEnlaceTransmissora* camada_enlace = nullptr;
 };

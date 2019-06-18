@@ -1,6 +1,4 @@
-// #include "sistema_comunicacao.hpp"
-#include <iostream>
-#include <ctime>
+#include "sistema_comunicacao.hpp"
 
 int main() {
     SistemaDeComunicacao sistema_de_comunicacao;

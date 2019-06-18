@@ -1,16 +1,18 @@
 #include "camada_aplicacao.hpp"
 
+using namespace std;
+
 void CamadaAplicacaoTransmissora :: transmitir(const Mensagem &mensagem){
      
     Quadro quadro = convMensagemPorQuadro(mensagem);
-    cout << "Mensagem convertida para binario: " << quadro << endl;
+    std::cout << "Mensagem convertida para binario: " << quadro << std::endl;
     camada_enlace->transmitir(quadro);
 
 }
 
 Quadro CamadaAplicacaoTransmissora:: convMensagemPorQuadro(const Mensagem &mensagem){
     
-    string mensagem_convertida = ""; //String que vai receber a mensagem em binario
+    std::string mensagem_convertida = ""; //String que vai receber a mensagem em binario
 
     //Realiza a conversao da mensagem original para uma mensagem em binario
     for(int i = 0; i < mensagem.length(); i++){    
