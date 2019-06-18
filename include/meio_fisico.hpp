@@ -4,7 +4,7 @@
 
 class ICamadaFisicaReceptora; // Classe declarada em interfaces_comunicacao.hpp
 
-class MeioFisico {
+class MeioFisico{
  
  public:
   void configCamadaFisicaReceptora(ICamadaFisicaReceptora*);

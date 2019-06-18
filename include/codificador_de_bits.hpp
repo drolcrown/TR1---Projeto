@@ -11,7 +11,7 @@ class ICodificadorDeBits { // NRZ, NRZI e Manchester
 };
 
 
-class CodificadorBinario : public ICodificadorDeBits //NRZ 
+class CodificadorBinario : public ICodificadorDeBits //NRZ
 {
 	public:
 		FluxoDeBits codificar(const Quadro&) override;
@@ -19,14 +19,13 @@ class CodificadorBinario : public ICodificadorDeBits //NRZ
 
 };
 
-class CodificadorManchester: public ICodificadorDeBits {
+class CodificadorManchesterDiferencial : public ICodificadorDeBits { // Manchester Diferencial
  public:
-   FluxoDeBits codificar(const Quadro& quadro);
-   Quadro decodificar(const FluxoDeBits& fluxo);
+  FluxoDeBits codificar(const Quadro&) override;
+  Quadro decodificar(const FluxoDeBits&) override;
 };
 
-
-class CodificadorManchesterDiferencial : public ICodificadorDeBits { // Manchester Diferencial
+class CodificadorManchester: public ICodificadorDeBits { // Manchester
  public:
   FluxoDeBits codificar(const Quadro&) override;
   Quadro decodificar(const FluxoDeBits&) override;

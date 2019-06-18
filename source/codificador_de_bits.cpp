@@ -108,14 +108,14 @@ FluxoDeBits CodificadorBinario::codificar(const Quadro& quadro) { // codifica es
   return fluxo;
 }
 
-Quadro CodificadorManchester::decodificar(const FluxoDeBits& fluxo_de_bits) { // decodifica estilo NRZ
+Quadro CodificadorBinario::decodificar(const FluxoDeBits& fluxo) { // codifica estilo NRZ
+	// 0 = 0 e 1 = 1 na NRZ ou seja, nÃ£o precisa fazer nada
+	Quadro quadro; // vetor fluxo de bits
+	quadro.reserve(fluxo.size()) ; //tamanho do vetor fluxo = tamanho do vetor fluxo
 
-  Quadro quadro;
-  quadro.reserve(fluxo_de_bits.size() / 2);
-
-  for (int i = 0; i < fluxo_de_bits.size(); i++){ 
-    quadro[i] = fluxo_de_bits[i]; // quadro = fluxo_de_bits, bit a bit
-  }
+	for (int i = 0; i < fluxo.size(); ++i){ 
+		quadro[i] = fluxo[i]; // fluxo = fluxo, bit a bit
+	}
 
   return quadro;
 }
