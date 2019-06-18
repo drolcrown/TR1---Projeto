@@ -1,9 +1,18 @@
 #pragma once
+#include "interfaces_comunicacao.hpp"
 
-class CamadaAplicacaoTransmissora {
+
+class CamadaAplicacaoTransmissora : public ICamadaAplicacaoTransmissora {
+    public:
+        void transmitir(const Mensagem&);
+    protected:
+        Quadro convMensagemPorQuadro(const Mensagem&);
 
 };
 
-class CamadaAplicacaoReceptora {
-
+class CamadaAplicacaoReceptora : public ICamadaAplicacaoReceptora {
+    public:
+        void receber(const Quadro&);
+    protected:
+        Mensagem convQuadroPorMensagem(const Quadro&);
 };

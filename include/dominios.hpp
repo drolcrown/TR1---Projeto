@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <bitset>
+#include <sstream>
 
 class Mensagem : public std::string {};
 
