@@ -36,6 +36,8 @@ void Receptor::configCodificadorDeBits(ICodificadorDeBits* codificador) {
 
 SistemaDeComunicacao::SistemaDeComunicacao() {
   this->transmissor.configMeioFisico(&meio_fisico);
+  this->transmissor.configCodificadorDeBits(&this->codificador);
+  this->receptor.configCodificadorDeBits(&this->codificador);
 }
 
 void SistemaDeComunicacao::run() {

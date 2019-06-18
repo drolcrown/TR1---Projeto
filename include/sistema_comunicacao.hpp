@@ -36,6 +36,7 @@ class SistemaDeComunicacao {
   SistemaDeComunicacao();
   void run();
  private:
+  CodificadorBinario codificador; // Altere essa linha para alterar o codificador.
   Transmissor transmissor;
   Receptor receptor;
   MeioFisico meio_fisico;
