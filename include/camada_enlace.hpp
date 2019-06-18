@@ -1,6 +1,7 @@
 #pragma once
 
 #include "interfaces_comunicacao.hpp"
+#include "escape.hpp"
 
 class CamadaEnlaceTransmissora : public ICamadaEnlaceTransmissora {
  public:
