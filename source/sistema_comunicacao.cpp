@@ -24,8 +24,8 @@ void Transmissor::configCodificadorDeBits(ICodificadorDeBits* codificador) {
 
 Receptor::Receptor() {
   this->camada_aplicacao.configAplicacaoReceptora(&this->aplicacao);
-  this->camada_enlace.configCamadaAplicacacaoReceptora(&this->camada_aplicacao);
-  this->camada_fisica.configCamadaEnlaceReceptor(&this->camada_enlace);
+  this->camada_enlace.configCamadaAplicacaoReceptora(&this->camada_aplicacao);
+  this->camada_fisica.configCamadaEnlaceReceptora(&this->camada_enlace);
 }
 
 void Receptor::configCodificadorDeBits(ICodificadorDeBits* codificador) {
