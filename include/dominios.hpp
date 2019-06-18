@@ -18,4 +18,4 @@ class Quadro : public std::vector<Bit>{};
  * camada física. */
 class FluxoDeBits : public std::vector<Bit>{};
 
-std::ostream& operator<< (std::ostream& out, std::vector<Bit>& v); 
+std::ostream& operator<< (std::ostream& out, const std::vector<Bit>& v); 
