@@ -1,9 +1,13 @@
 #pragma once
 
-class CamadaEnlaceTransmissora {
+#include "interfaces_comunicacao.hpp"
 
+class CamadaEnlaceTransmissora : public ICamadaEnlaceTransmissora {
+ public:
+  void transmitir(const Quadro&) override;
 };
 
-class CamadaEnlaceReceptora {
-
+class CamadaEnlaceReceptora : public ICamadaEnlaceReceptora {
+ public:
+  void receber(const Quadro&) override;
 };
