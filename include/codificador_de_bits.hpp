@@ -10,13 +10,11 @@ class ICodificadorDeBits { // NRZ, NRZI e Manchester
   virtual Quadro decodificar(const FluxoDeBits&) = 0;
 };
 
-
 class CodificadorBinario : public ICodificadorDeBits //NRZ
 {
 	public:
 		FluxoDeBits codificar(const Quadro&) override;
 		Quadro decodificar (const FluxoDeBits&) override;
-
 };
 
 class CodificadorManchesterDiferencial : public ICodificadorDeBits { // Manchester Diferencial
