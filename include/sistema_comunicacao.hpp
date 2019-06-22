@@ -35,10 +35,14 @@ class Receptor {
 class SistemaDeComunicacao {
  public:
   SistemaDeComunicacao();
+  SistemaDeComunicacao(ICodificadorDeBits&, const double&);
+  SistemaDeComunicacao(ICodificadorDeBits&, MeioFisico&);
+  
   void run();
+
  private:
-  // ICodificadorDeBits*  codificador; 
-  CodificadorBinario codificador; // Altere essa linha para alterar o codificador.
+  CodificadorBinario cod; // Altere essa linha para alterar o codificador.
+  ICodificadorDeBits& codificador = cod; 
   Transmissor transmissor;
   Receptor receptor;
   MeioFisico meio_fisico;
