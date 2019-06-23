@@ -12,6 +12,10 @@ void ICamadaFisicaReceptora::configCamadaEnlaceReceptora(ICamadaEnlaceReceptora 
     this->camada_enlace = camada_enlace;
 }
 
+void ICamadaEnlaceReceptora::configControladorDeErro(IControladorDeErro* controlador_de_erro) {
+    this->controlador_de_erro = controlador_de_erro;
+}
+
 void ICamadaFisicaReceptora::configMeioFisico(MeioFisico* meio_fisico) {
     meio_fisico->configCamadaFisicaReceptora(this);
 }
@@ -30,6 +34,10 @@ void ICamadaFisicaTransmissora::configCodificador(ICodificadorDeBits *codificado
 
 void ICamadaEnlaceTransmissora::configCamadaFisicaTransmissora(ICamadaFisicaTransmissora *camada_fisica) {
     this->camada_fisica = camada_fisica;
+}
+
+void ICamadaEnlaceTransmissora::configControladorDeErro(IControladorDeErro* controlador_de_erro) {
+    this->controlador_de_erro = controlador_de_erro;
 }
 
 void ICamadaAplicacaoTransmissora::configCamadaEnlaceTransmissora(ICamadaEnlaceTransmissora *camada_enlace) {

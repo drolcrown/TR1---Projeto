@@ -8,25 +8,25 @@ class IControladorDeErro {
   virtual Quadro controlarErros(const Quadro&) = 0;
 };
 
-class ControladorBitParidadePar : IControladorDeErro {
+class ControladorBitParidadePar : public IControladorDeErro {
+ public:
+  Quadro adicionarControle(const Quadro&) override {}
+  Quadro controlarErros(const Quadro&) override {}
+};
+
+class ControladorBitParidadeImpar : public IControladorDeErro {
  public:
   Quadro adicionarControle(const Quadro&) override;
   Quadro controlarErros(const Quadro&) override;
 };
 
-class ControladorBitParidadeImpar : IControladorDeErro {
+class ControladorCRC : public IControladorDeErro {
  public:
   Quadro adicionarControle(const Quadro&) override;
   Quadro controlarErros(const Quadro&) override;
 };
 
-class ControladorCRC : IControladorDeErro {
- public:
-  Quadro adicionarControle(const Quadro&) override;
-  Quadro controlarErros(const Quadro&) override;
-};
-
-class ControladorCodigoDeHamming : IControladorDeErro {
+class ControladorCodigoDeHamming : public IControladorDeErro {
  public:
   Quadro adicionarControle(const Quadro&) override;
   Quadro controlarErros(const Quadro&) override;
