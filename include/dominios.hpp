@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <bitset>
-#include <sstream>
+#include <iostream>
 
 class Mensagem : public std::string {};
 
@@ -17,3 +17,5 @@ class Quadro : public std::vector<Bit>{};
 /** @brief FluxoDeBits pe o tipo de dado que representa um vetor de Bits na
  * camada física. */
 class FluxoDeBits : public std::vector<Bit>{};
+
+std::ostream& operator<< (std::ostream& out, const std::vector<Bit>& v); 

@@ -1,12 +1,18 @@
 #pragma once
+
+#include <sstream>
+
+#include "aplicacao.hpp"
 #include "interfaces_comunicacao.hpp"
+#include "escape.hpp"
 
+    class CamadaAplicacaoTransmissora : public ICamadaAplicacaoTransmissora
+{
+public:
+    void transmitir(const Mensagem &);
 
-class CamadaAplicacaoTransmissora : public ICamadaAplicacaoTransmissora {
-    public:
-        void transmitir(const Mensagem&);
-    protected:
-        Quadro convMensagemPorQuadro(const Mensagem&);
+protected:
+    Quadro convMensagemPorQuadro(const Mensagem &);
 
 };
 
