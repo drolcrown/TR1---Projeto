@@ -93,7 +93,7 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
         if(quadro_recebido[i] == 0){
             continue;
         }else{
-            cout<<"Quadro com problemas!";
+            cout<<"Quadro com erro!";
             for(int i = quadro_recebido.size(); i >= 9; i--){
                 quadro_transmitido.pop_back();
             }
@@ -101,7 +101,7 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
         }
     }
 
-    for(int i = quadro_recebido.size(); i >= 9; i--){
+    for(int i = quadro_recebido.size();i >= tam_CRC ; i--){
 
         quadro_transmitido.pop_back();
 
