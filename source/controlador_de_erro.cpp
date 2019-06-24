@@ -56,9 +56,6 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
             continue;
         }else{
             cout<<"Quadro com problemas!";
-            for(int i = quadro_modificavel.size(); i >= 9; i--){
-                quadro_original.pop_back();
-            }
             exit;
         }
     }
