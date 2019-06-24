@@ -94,7 +94,10 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
             continue;
         }else{
             cout<<"Quadro com problemas!";
-            return quadro;
+            for(int i = quadro_recebido.size(); i >= 9; i--){
+                quadro_transmitido.pop_back();
+            }
+            return quadro_transmitido;
         }
     }
 
