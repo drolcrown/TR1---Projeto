@@ -2,7 +2,7 @@
 
 Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
-    Quadro crc = {1,0,1,1};
+    std::vector<bool> crc = {1,0,1,1};
     Quadro quadro_completo = quadro; //Quadro que vai receber a sequencia de 0's
  
     Quadro CRC = quadro_completo;
@@ -35,34 +35,35 @@ Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
 Quadro ControladorCRC::controlarErros(const Quadro &quadro){
 
-    Quadro crc = {1,0,1,1};
+    std::vector<bool> crc = {1,0,1,1};
 
     Quadro quadro_original = quadro;
+    Quadro quadro_modificavel = quadro;
 
     int tam_quadro_recebido = quadro.size();
     int tam_CRC = crc.size();
 
     //Realiza a operacao de divisao
-    for(int i = 0; i <= quadro.size() - tam_CRC; ){
+    for(int i = 0; i <= quadro_modificavel.size() - tam_CRC; ){
         for(int j = 0; j < tam_CRC; j++)
-            quadro[i + j] = quadro[i+j] == crc[j]? 0:1; //XOR
-        for(; i < quadro.size() && quadro[i] != 1; i++);//Condicao de iteracao do i
+            quadro_modificavel[i + j] = quadro_modificavel[i+j] == crc[j]? 0:1; //XOR
+        for(; i < quadro_modificavel.size() && quadro_modificavel[i] != 1; i++);//Condicao de iteracao do i
     }
     
-    for(int i = 0; i < quadro.size(); i++){
+    for(int i = 0; i < quadro_modificavel.size(); i++){
         
-        if(quadro[i] == 0){
+        if(quadro_modificavel[i] == 0){
             continue;
         }else{
             cout<<"Quadro com problemas!";
-            for(int i = quadro.size(); i >= 9; i--){
+            for(int i = quadro_modificavel.size(); i >= 9; i--){
                 quadro_original.pop_back();
             }
             exit;
         }
     }
 
-    for(int i = quadro.size(); i >= 9; i--){
+    for(int i = quadro_modificavel.size(); i >= 9; i--){
         
         quadro_original.pop_back();
     
