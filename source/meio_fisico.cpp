@@ -35,7 +35,7 @@ FluxoDeBits MeioFisico::meioDeComunicacao(const FluxoDeBits& fluxo){
     
     srand(time(NULL)); // Gerar numeros baseados no relogio do pc
     for (int i = 0 ; fluxoBitsReceptor.size() < fluxoBitsTransmissor.size(); ++i) {
-        if ((rand()%100+1) == this->porcentagemDeErros ){ //verificar se o numero de 1 a 100 gerado está no valor da porcentagem de erro
+        if (rand()%100 + 1 <= this->porcentagemDeErros ){ //verificar se o numero de 1 a 100 gerado está no valor da porcentagem de erro
             fluxoBitsReceptor.push_back(!fluxoBitsTransmissor[i]); // Inverte o Bit
             // std::cout << "Erro no Bit " << i << std::endl;
         }
