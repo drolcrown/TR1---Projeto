@@ -20,6 +20,8 @@ class ControladorBitParidadeImpar : public IControladorDeErro {
  public:
   Quadro adicionarControle(const Quadro&) override;
   Quadro controlarErros(const Quadro&) override;
+ private:
+  Bit bitParidadeImpar(const Quadro&);
 };
 
 class ControladorCRC : public IControladorDeErro {
