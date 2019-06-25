@@ -1,4 +1,4 @@
- #include "controlador_de_erro.hpp"
+#include "controlador_de_erro.hpp"
 
 Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
@@ -16,7 +16,7 @@ Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
     int diferenca_entre_quadros = crc.size() - quadro.size();
 
-    if(diferenca_entre_quadros >= 1){
+    if(diferenca_entre_quadros >= -8){
         //Preenche quadro_completo com zeros para completar as posicoes
         for(int i = 0; i < crc.size(); i++){
             quadro_completo.push_back(0);
@@ -101,7 +101,7 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
         }
     }
 
-    for(int i = quadro_recebido.size();i >= tam_CRC ; i--){
+    for(int i = quadro_recebido.size();i >= quadro_recebido.size()-tam_CRC ; i--){
 
         quadro_transmitido.pop_back();
 
