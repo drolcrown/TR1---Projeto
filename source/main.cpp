@@ -3,15 +3,16 @@
 
 int main() {
   ICodificadorDeBits* codificador = 
-    //new CodificadorBinario
+    // new CodificadorBinario
     new CodificadorManchester
-    //new CodificadorManchesterDiferencial
+    // new CodificadorManchesterDiferencial
   ;
   IControladorDeErro* controlador_de_erro = 
-    //new ControladorBitParidadePar
-    new ControladorBitParidadeImpar
+    // new ControladorBitParidadePar
+    // new ControladorBitParidadeImpar
+     new ControladorCodigoDeHamming
   ;
-  int taxa_de_erros = 1; // Porcentagem
+  int taxa_de_erros = 0; // Porcentagem
   SistemaDeComunicacao sistema_de_comunicacao(codificador, controlador_de_erro, taxa_de_erros);
   sistema_de_comunicacao.run();
   delete codificador;

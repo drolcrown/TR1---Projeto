@@ -134,6 +134,7 @@ e os bits de mensagem à seguir, o valor inicial de todos os bits de controle é
 			aux = 0; // reinicia aux
 		}	
 	}
+	return final;
 }
 
 /////// Fim da codificação de Hamming ///////////////////////////////////////////////////////////////////////////////////////
