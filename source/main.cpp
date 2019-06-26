@@ -8,9 +8,10 @@ int main() {
     // new CodificadorManchesterDiferencial
   ;
   IControladorDeErro* controlador_de_erro = 
+    new ControladorCRC;
     // new ControladorBitParidadePar
     // new ControladorBitParidadeImpar
-     new ControladorCodigoDeHamming
+    //  new ControladorCodigoDeHamming
   ;
   int taxa_de_erros = 10; // Porcentagem de erros no meio físico.
   SistemaDeComunicacao sistema_de_comunicacao(codificador, controlador_de_erro, taxa_de_erros);

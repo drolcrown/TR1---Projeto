@@ -17,5 +17,6 @@ void CamadaEnlaceReceptora::receber(const Quadro& quadro_controlado) {
     << esc::RESET // reset escape code
   ;
   Quadro quadro = this->controlador_de_erro->controlarErros(quadro_controlado);
-  this->camada_aplicacao->receber(quadro);
+  this->camada_aplicacao->receber(this->controlador_de_erro->controlarErros(quadro));
+
 }
