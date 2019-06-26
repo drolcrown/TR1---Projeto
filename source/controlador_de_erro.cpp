@@ -1,6 +1,8 @@
 #include "controlador_de_erro.hpp"
 #include <cmath>
 
+using namespace std;
+
 Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
     Quadro crc;

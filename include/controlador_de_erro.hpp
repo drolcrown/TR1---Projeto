@@ -33,5 +33,5 @@ class ControladorCRC : public IControladorDeErro {
 class ControladorCodigoDeHamming : public IControladorDeErro {
  public:
   Quadro adicionarControle(const Quadro&) override;
-  Quadro controlarErros(const Quadro& quadro) override {return quadro;}
+  Quadro controlarErros(const Quadro& quadro) override;
 };
