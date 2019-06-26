@@ -167,6 +167,67 @@ Bit ControladorBitParidadeImpar::bitParidadeImpar(const Quadro& quadro) {
     return bit_paridade;
 }
 
+// ControladorCodigoHamming ///////////////////////////////////////////////////
+
+Quadro ControladorCodigoDeHamming::adicionarControle(const Quadro& quadro) {
+	Quadro quadro_controlado = quadro;
+	quadro_controlado = this->shiftRight(quadro_controlado); // [0] ++ quadro_controlado
+    quadro_controlado = this->moverBitsDados(quadro_controlado);
+	quadro_controlado = this->adicionarBitsParidade(quadro_controlado);
+	quadro_controlado = this->shiftLeft(quadro_controlado); // remover shiftRight
+	return quadro_controlado;
+}
+
+Quadro ControladorCodigoDeHamming::shiftRight(const Quadro& quadro) {
+	Quadro shifted;
+	shifted.push_back(0);
+	for (int i = 0; i < quadro.size(); ++i) {
+		shifted.push_back(quadro[i]);
+	}
+	return shifted;
+}
+
+Quadro ControladorCodigoDeHamming::shiftLeft(const Quadro& quadro) {
+	Quadro shifted;
+	for (int i = 1; i < quadro.size(); ++i) {
+		shifted.push_back(quadro[i]);
+	}
+	return shifted;
+}
+ 
+Quadro ControladorCodigoDeHamming::moverBitsDados(const Quadro& quadro) {
+	Quadro movidos;
+	int proxima_potencia2 = 1; // Quarda a próxima potência de 2;
+	int idx_quadro = 0; // Guarda o índice do último bit de quadro adicionado a movidos.
+	while (idx_quadro != quadro.size()) {
+		if (movidos.size() == proxima_potencia2) {
+			movidos.push_back(0);
+			proxima_potencia2 = proxima_potencia2 * 2;
+		} else {
+			movidos.push_back(quadro[idx_quadro]);
+			idx_quadro = idx_quadro + 1;
+		}
+	}
+	return movidos;
+}
+
+Quadro ControladorCodigoDeHamming::adicionarBitsParidade(const Quadro& quadro) {
+	Quadro hamming = quadro;
+	for (int potencia2 = 1; potencia2 < quadro.size(); potencia2 = potencia2 * 2) {
+		hamming[potencia2] = this->bitParidade(potencia2, quadro);
+	}
+	return hamming;
+}
+
+Bit ControladorCodigoDeHamming::bitParidade(int potencia2, const Quadro &quadro) {
+	Bit bit_paridade = 0;
+	for (int idx = potencia2 + 1; idx < quadro.size(); ++idx) {
+		if ((potencia2 & idx) != 0) { // and bit a bit
+			bit_paridade = bit_paridade xor quadro[idx];
+		}
+	}
+	return bit_paridade;
+}
 
 //////////// Codificação de Hamming ///////////////////////////////////////////////////////////////////////////////////////
 Quadro ControladorCodigoDeHamming::adicionarControle(const Quadro& quadro){
