@@ -12,7 +12,7 @@ TEST_CASE("TControladorCodigoHamming::controlarErros (8 bits)") {
     quadro.push_back(1);
     quadro.push_back(1);
     quadro.push_back(1);
-    Quadro hamming_quadro; // [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1]
+    Quadro hamming_quadro; // [1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1]
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(0);
@@ -20,12 +20,12 @@ TEST_CASE("TControladorCodigoHamming::controlarErros (8 bits)") {
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(0);
-    hamming_quadro.push_back(1);
+    hamming_quadro.push_back(0);
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(1);
     hamming_quadro.push_back(1);
     SECTION("adicionarControle") {
-        CHECK(controlador.controlarErros(quadro) == hamming_quadro);
+        CHECK(controlador.adicionarControle(quadro) == hamming_quadro);
     }
 } 

@@ -33,7 +33,7 @@ class ControladorCRC : public IControladorDeErro {
 class ControladorCodigoDeHamming : public IControladorDeErro {
  public:
   Quadro adicionarControle(const Quadro&) override;
-  Quadro controlarErros(const Quadro& quadro) override {return quadro;}
+  Quadro controlarErros(const Quadro& quadro) override;
  private:
   /** @brief  Desloca o quadro para a esquerda, tirando seu primeiro termo. 
    * @param quadro  Quadro a ser deslocado.
