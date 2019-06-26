@@ -79,9 +79,6 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
     Quadro quadro_recebido = quadro;
     Quadro quadro_transmitido = quadro; 
 
-    cout << endl;
-
-    int tam_quadro_recebido = quadro.size();
     int tam_CRC = crc.size();
 
     //Realiza a operacao de divisao
@@ -96,8 +93,8 @@ Quadro ControladorCRC::controlarErros(const Quadro &quadro){
         if(quadro_recebido[i] == 0){
             continue;
         }else{
-            cout<<"Quadro com erro!";
-            for(int i = quadro_recebido.size(); i >= 9; i--){
+            cout<<"Quadro com erro!\n";
+            for(int i = quadro_recebido.size(); i >= quadro_recebido.size()-tam_CRC; i--){
                 quadro_transmitido.pop_back();
             }
             return quadro_transmitido;
