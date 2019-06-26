@@ -2,9 +2,21 @@
 
 
 int main() {
-  ICodificadorDeBits* codificador = new CodificadorBinario;
-  double taxa_de_erros = 0.1;
-  SistemaDeComunicacao sistema_de_comunicacao(codificador, taxa_de_erros);
+  ICodificadorDeBits* codificador = 
+    // new CodificadorBinario
+    new CodificadorManchester
+    // new CodificadorManchesterDiferencial
+  ;
+  IControladorDeErro* controlador_de_erro = 
+    // new ControladorBitParidadePar
+    // new ControladorBitParidadeImpar
+     new ControladorCodigoDeHamming
+  ;
+  int taxa_de_erros = 0; // Porcentagem
+  SistemaDeComunicacao sistema_de_comunicacao(codificador, controlador_de_erro, taxa_de_erros);
   sistema_de_comunicacao.run();
+  delete codificador;
+  delete controlador_de_erro;
+  return 0;
 }
 

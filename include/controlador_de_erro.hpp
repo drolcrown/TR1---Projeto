@@ -2,19 +2,36 @@
 
 #include "dominios.hpp"
 
-using namespace std;
-
-
 class IControladorDeErro {
  public:
-    virtual Quadro adicionarControle(const Quadro& ) = 0;
-    virtual Quadro controlarErros(const Quadro& ) = 0; 
-
+  virtual Quadro adicionarControle(const Quadro&) = 0;
+  virtual Quadro controlarErros(const Quadro&) = 0;
 };
 
-class ControladorCRC : public IControladorDeErro{
+class ControladorBitParidadePar : public IControladorDeErro {
+ public:
+  Quadro adicionarControle(const Quadro&) override;
+  Quadro controlarErros(const Quadro&) override;
+ private:
+  Bit bitParidadePar(const Quadro&);
+};
 
-public:
-    Quadro adicionarControle(const Quadro&) override;
-    Quadro controlarErros(const Quadro&) override;
+class ControladorBitParidadeImpar : public IControladorDeErro {
+ public:
+  Quadro adicionarControle(const Quadro&) override;
+  Quadro controlarErros(const Quadro&) override;
+ private:
+  Bit bitParidadeImpar(const Quadro&);
+};
+
+class ControladorCRC : public IControladorDeErro {
+ public:
+  Quadro adicionarControle(const Quadro&) override;
+  Quadro controlarErros(const Quadro&) override;
+};
+
+class ControladorCodigoDeHamming : public IControladorDeErro {
+ public:
+  Quadro adicionarControle(const Quadro&) override;
+  Quadro controlarErros(const Quadro& quadro) override {return quadro;}
 };

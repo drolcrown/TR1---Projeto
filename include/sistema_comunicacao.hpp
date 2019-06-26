@@ -6,6 +6,7 @@
 #include "meio_fisico.hpp"
 #include "camada_fisica.hpp"
 #include "codificador_de_bits.hpp"
+#include "controlador_de_erro.hpp"
 
 class Transmissor {
  public:
@@ -13,6 +14,7 @@ class Transmissor {
   void run();
   void configMeioFisico(MeioFisico*);
   void configCodificadorDeBits(ICodificadorDeBits*);
+  void configControladorDeErro(IControladorDeErro*);
  private:
   AplicacaoTransmissora aplicacao;
   CamadaAplicacaoTransmissora camada_aplicacao;
@@ -25,6 +27,7 @@ class Receptor {
   Receptor();
   void configCodificadorDeBits(ICodificadorDeBits*);
   void configMeioFisico(MeioFisico*);
+  void configControladorDeErro(IControladorDeErro*);
  private:
   AplicacaoReceptora aplicacao;
   CamadaAplicacaoReceptora camada_aplicacao;
@@ -34,15 +37,11 @@ class Receptor {
 
 class SistemaDeComunicacao {
  public:
-  SistemaDeComunicacao();
-  SistemaDeComunicacao(ICodificadorDeBits&, const double&);
-  SistemaDeComunicacao(ICodificadorDeBits&, MeioFisico&);
-  
-  void run();
-
+   SistemaDeComunicacao(ICodificadorDeBits*,
+                        IControladorDeErro*,
+                        double taxa_de_erros);
+   void run();
  private:
-  CodificadorBinario cod; // Altere essa linha para alterar o codificador.
-  ICodificadorDeBits& codificador = cod; 
   Transmissor transmissor;
   Receptor receptor;
   MeioFisico meio_fisico;

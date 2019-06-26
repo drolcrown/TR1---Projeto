@@ -20,6 +20,10 @@ void Transmissor::configCodificadorDeBits(ICodificadorDeBits* codificador) {
   this->camada_fisica.configCodificador(codificador);
 }
 
+void Transmissor::configControladorDeErro(IControladorDeErro* controlador_de_erro) {
+  this->camada_enlace.configControladorDeErro(controlador_de_erro);
+}
+
 // Receptor ///////////////////////////////////////////////////////////////////
 
 Receptor::Receptor() {
@@ -36,31 +40,23 @@ void Receptor::configMeioFisico(MeioFisico* meio_fisico) {
   this->camada_fisica.configMeioFisico(meio_fisico);
 }
 
+void Receptor::configControladorDeErro(IControladorDeErro* controlador_de_erro) {
+  this->camada_enlace.configControladorDeErro(controlador_de_erro);
+}
+
 // SistemaDeComunicacao ///////////////////////////////////////////////////////
 
-SistemaDeComunicacao::SistemaDeComunicacao() {
-  this->meio_fisico.taxaDeErro(0); //Definir Taxa de erro
-  this->transmissor.configMeioFisico(&this->meio_fisico);
-  this->transmissor.configCodificadorDeBits(&this->codificador);
-  this->receptor.configCodificadorDeBits(&this->codificador);
-  this->receptor.configMeioFisico(&this->meio_fisico);
-}
-
 //Instanciar o codificador e a porcentagem de erros no meio fisico
-SistemaDeComunicacao::SistemaDeComunicacao(ICodificadorDeBits& codificador, const double& taxa) {
-  this->meio_fisico.taxaDeErro(taxa); //Definir Taxa de erro
+SistemaDeComunicacao::SistemaDeComunicacao(ICodificadorDeBits* codificador,
+                                           IControladorDeErro* controlador_de_erro,
+                                           double taxa_de_erro) {
+  this->meio_fisico.taxaDeErro(taxa_de_erro); //Definir Taxa de erro
   this->transmissor.configMeioFisico(&this->meio_fisico);
-  this->transmissor.configCodificadorDeBits(&codificador);
-  this->receptor.configCodificadorDeBits(&codificador);
+  this->transmissor.configCodificadorDeBits(codificador);
+  this->transmissor.configControladorDeErro(controlador_de_erro);
+  this->receptor.configCodificadorDeBits(codificador);
   this->receptor.configMeioFisico(&this->meio_fisico);
-}
-
-//Instanciar o codificador e o tipo de meio fisico
-SistemaDeComunicacao::SistemaDeComunicacao(ICodificadorDeBits& codificador, MeioFisico& meio) {
-  this->transmissor.configMeioFisico(&meio);
-  this->transmissor.configCodificadorDeBits(&codificador);
-  this->receptor.configCodificadorDeBits(&codificador);
-  this->receptor.configMeioFisico(&meio);
+  this->receptor.configControladorDeErro(controlador_de_erro);
 }
 
 
