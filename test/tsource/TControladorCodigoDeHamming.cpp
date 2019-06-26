@@ -1,7 +1,7 @@
 #include "catch2.hpp"
 #include "controlador_de_erro.hpp"
 
-TEST_CASE("TControladorCodigoHamming::adicionarControle (8 bits)") {
+TEST_CASE("TControladorCodigoHamming") {
     ControladorCodigoDeHamming controlador;
     Quadro quadro; // [0, 1, 1, 0, 1, 1, 1, 1]
     quadro.push_back(0);
