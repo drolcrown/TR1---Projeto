@@ -17,16 +17,12 @@ Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
     Quadro quadro_completo = quadro; //Quadro que vai receber a sequencia de 0's
 
-    int diferenca_entre_quadros = crc.size() - quadro.size();
-
-    if(diferenca_entre_quadros >= -8){
-        //Preenche quadro_completo com zeros para completar as posicoes
-        for(int i = 0; i < crc.size(); i++){
-            quadro_completo.push_back(0);
-        }
-    }else{
-        //Nao acontece nada 
+ 
+    //Preenche quadro_completo com zeros para completar as posicoes
+    for(int i = 0; i < crc.size(); i++){
+        quadro_completo.push_back(0);
     }
+
 
     vector<bool> CRC = quadro_completo;
     int tam_CRC = crc.size();
@@ -46,7 +42,7 @@ Quadro ControladorCRC :: adicionarControle(const Quadro &quadro){
 
     cout << "CRC calculado: ";
     for(int i = 0; i < CRC.size() - quadro_completo.size(); i++){
-        cout << CRC[i+40];
+        cout << CRC[i+quadro_completo.size()];
     }
 
     cout << endl;
