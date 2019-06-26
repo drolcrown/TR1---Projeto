@@ -60,4 +60,10 @@ class ControladorCodigoDeHamming : public IControladorDeErro {
    * @param potencia2  Posição do índice do bit de paridade. 
    * @return Bit */
   Bit bitParidade(int potencia2, const Quadro&);
+
+  Quadro removerBitsParidade(const Quadro&);
+
+  std::vector<int> indicesDosBitsParidadeDiferentes(const Quadro&, const Quadro&);
+
+  Quadro corrigirQuadro(const Quadro &quadro, const std::vector<int>& paridades_divergentes);
 };

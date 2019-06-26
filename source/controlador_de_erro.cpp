@@ -229,213 +229,252 @@ Bit ControladorCodigoDeHamming::bitParidade(int potencia2, const Quadro &quadro)
 	return bit_paridade;
 }
 
-// //////////// Codificação de Hamming ///////////////////////////////////////////////////////////////////////////////////////
-// Quadro ControladorCodigoDeHamming::adicionarControle(const Quadro& quadro){
-	
-// 	int i,j,k,l,m, aux, tamanho, potencia;
-// 	bool flag;
-
-// //////////////////////////// Número de Bits de controle ///////////////////////////////////////////////////////////////////
-
-// 	i = 0; // auxiliar do loop
-// 	tamanho = quadro.size(); //tamanho do quadro
-// 	flag = 1; //interrupção do loop
-
-// 	while(flag){
-
-// 		if( ( pow(2,i) ) == tamanho || ( pow(2,i) ) > tamanho){ // descobre o número de bits de controle, maior ou igual a uma potência de 2
-// 			flag = 0; //interrompe o loop
-// 			potencia = i+1; //define o número de bits de controle
-// 		}
-
-// 		i++; //incrementa i para aumentar o número de bits de controle caso não seja suficiente
-// 	}
-
-// ///////////////////////////// Posição dos bits de de controle e de mensagem no quadro final //////////////////////////////////
-
-// 	Quadro vetor_controle; // o tipo quadro é só porque é um vetor de booleanos
-// 	Quadro final; //quadro com controle e mensagem
-
-// 	aux = 0; j = 0;
-	
-// 	for(i=1; i < tamanho + potencia + 1; i++){ // valor dos bits de controle, vetor começa na "posição 1", por isso i = 1 e i < ... +1
-
-// 		if( i == (pow(2,aux)) ){ // insere bit de contole
-
-// 			final.push_back(0); // bit de controle, valor é irrelevante agora
-// 			aux++; // prepara pro próximo bit de contole
-// 		}
-
-// 		else { // insere bit de mensagem
-// 			final.push_back(quadro[j]); //insere bit de mensagem com valor correto
-// 			j++; // prepara para o próximo bit de mensagem
-// 		}
-// 	}		
-
-// /////////////////////////////// Valor dos bits de controle e mensagem final ///////////////////////////////////////////////////
-	
-// 	tamanho = final.size(); // tamanho do quadro final a ser enviado
-
-// 	j = 0; aux = 0;
-
-// 	for(i = 1; i < tamanho + 1; i++) { // vou percorrer o vetor final para atualizar os valores de bits de controle 
-
-// 		if( i == pow(2,j) ){ // descobre se é bit de controle
-
-// 			j++;// pepara para pegar o próximo bit de controle
-// 			l = i; // auxiliar para decidir quais bits devem ser considerados naquele bit de controle
-
-// 			for(k = 1; k <= l; k++){ // coleto os bits relevantes para o bit de controle
-
-// /* trabalho como se fossem números inteiros e somo, os bits relevantes são o próprio bit de controle 
-// e os bits de mensagem à seguir, o valor inicial de todos os bits de controle é zero para permitir a soma */
-
-// 				if(k == l){ // verifica se é inicio de uma sequência de bits relevantes
-// 					for( m = k; m < k+i; m++ ){
-
-// 						aux += final[k-1]; // vetores começam em zero, mas k começou em 1, -1 é pra corrigir a posição
-// 						//pega as sequencias de bits relevantes
-// 					}
-
-// 					l += pow(2,i); //incrementa a condição de parada para o início da próxima sequência de bits relevantes
-
-// 				}
-
-// 				if(l > tamanho + 1)break; // acabou o quadro, para de procurar bits
-// 			}
-// 			aux = (aux%2); // aux é inteiro, isso pega o resto da divisão por 2 para decidir se é um bit 1 ou 0
-// 			final[i-1] = aux; // atualiza o bit de controle, no início tinha valor zero
-// 			aux = 0; // reinicia aux
-// 		}	
-// 	}
-// 	return final;
-// }
-
-// /////// Fim da codificação de Hamming ///////////////////////////////////////////////////////////////////////////////////////
-
-
-
-Quadro ControladorCodigoDeHamming::controlarErros(const Quadro& quadro){ 
-	return quadro;
+Quadro ControladorCodigoDeHamming::controlarErros(const Quadro& hamming_recebido) {
+    Quadro quadro_recebido = this->shiftLeft(this->removerBitsParidade(this->shiftRight(hamming_recebido)));
+    Quadro hamming_teorico = this->adicionarControle(quadro_recebido);
+    std::vector<int> paridades_divergentes = this->indicesDosBitsParidadeDiferentes(hamming_recebido, hamming_teorico);
+    if (paridades_divergentes.size() > 0) {
+        std::cout << "Quadro com erro!" << '\n';
+        return this->corrigirQuadro(quadro_recebido, paridades_divergentes);
+    }
+    return quadro_recebido;
 }
 
-// 	int i,j,k,l,m, aux, tamanho, potencia;
-// 	bool flag;
+Quadro ControladorCodigoDeHamming::removerBitsParidade(const Quadro& quadro) {
+    Quadro sem_bits_paridade;
+    int proxima_potencia2 = 1;
+    for (int idx = 0; idx < quadro.size(); ++idx) {
+        if (idx == proxima_potencia2) {
+            proxima_potencia2 = proxima_potencia2 * 2;
+        } else {
+            sem_bits_paridade.push_back(quadro[idx]);
+        }
+    }
+    return sem_bits_paridade;
+}
 
-// //////////////////////////// Número de Bits de controle ///////////////////////////////////////////////////////////////////
+std::vector<int> ControladorCodigoDeHamming::indicesDosBitsParidadeDiferentes(const Quadro& a, const Quadro& b) {
+    std::vector<int> indices;
+    for (int proxima_potencia2 = 1; proxima_potencia2 < a.size() - 1; proxima_potencia2 = proxima_potencia2 * 2) {
+        if (a[proxima_potencia2 - 1] != b[proxima_potencia2 - 1]) {
+            indices.push_back(proxima_potencia2);
+        }
+    }
+    return indices;
+}
 
-// 	i = 0; // auxiliar do loop
-// 	tamanho = quadro.size(); //tamanho do quadro
-// 	flag = 1; //interrupção do loop
+Quadro ControladorCodigoDeHamming::corrigirQuadro(const Quadro& quadro, const std::vector<int>& paridades_divergentes) {
+    int bit_errado = 0;
+    for (int i = 0; i < paridades_divergentes.size(); ++i) {
+        bit_errado = bit_errado + paridades_divergentes[i];
+    }
+    Quadro corrigido = this->moverBitsDados(this->shiftRight(quadro));
+    corrigido[bit_errado] = !corrigido[bit_errado];
+    corrigido = this->removerBitsParidade(corrigido);
+    corrigido = this->shiftLeft(corrigido);
+    return corrigido;
+}
 
-// 	while(flag){
+    // //////////// Codificação de Hamming ///////////////////////////////////////////////////////////////////////////////////////
+    // Quadro ControladorCodigoDeHamming::adicionarControle(const Quadro& quadro){
 
-// 		if( ( pow(2,i) ) > tamanho){ // descobre o número de bits de controle, maior a uma potência de 2 quer dizer q já ultrapassou o limite
-// 			flag = 0; //interrompe o loop
-// 			potencia = i; //desobre o número de bits de controle existentes no quadro
-// 			// OBS: não precisa do +1, pq só interrompe dps de passar
-// 		}
+    // 	int i,j,k,l,m, aux, tamanho, potencia;
+    // 	bool flag;
 
-// 		i++; //incrementa i para aumentar o número de bits de controle caso não seja suficiente
-// 	}
+    // //////////////////////////// Número de Bits de controle ///////////////////////////////////////////////////////////////////
 
-// 	///// Recálculo dos bits de controle ///////////////////////////////////////////////////////////
+    // 	i = 0; // auxiliar do loop
+    // 	tamanho = quadro.size(); //tamanho do quadro
+    // 	flag = 1; //interrupção do loop
 
-// 	j = 0; aux = 0;
+    // 	while(flag){
 
-// 	for(i = 1; i < tamanho + 1; i++) { // vou percorrer o quadro para recalcular os valores de bits de controle 
+    // 		if( ( pow(2,i) ) == tamanho || ( pow(2,i) ) > tamanho){ // descobre o número de bits de controle, maior ou igual a uma potência de 2
+    // 			flag = 0; //interrompe o loop
+    // 			potencia = i+1; //define o número de bits de controle
+    // 		}
 
-// 		if( i == pow(2,j) ){ // descobre se é bit de controle
+    // 		i++; //incrementa i para aumentar o número de bits de controle caso não seja suficiente
+    // 	}
 
-// 			j++;// pepara para pegar o próximo bit de controle
-// 			l = i; // auxiliar para decidir quais bits devem ser considerados naquele bit de controle
+    // ///////////////////////////// Posição dos bits de de controle e de mensagem no quadro final //////////////////////////////////
 
-// 			for(k = 1; k <= l; k++){ // coleto os bits relevantes para o bit de controle
+    // 	Quadro vetor_controle; // o tipo quadro é só porque é um vetor de booleanos
+    // 	Quadro final; //quadro com controle e mensagem
 
+    // 	aux = 0; j = 0;
 
-// 				if(k == l){ // verifica se é inicio de uma sequência de bits relevantes
-// 					for( m = k; m < k+i; m++ ){
+    // 	for(i=1; i < tamanho + potencia + 1; i++){ // valor dos bits de controle, vetor começa na "posição 1", por isso i = 1 e i < ... +1
 
-// 						aux += quadro[k-1]; // vetores começam em zero, mas k começou em 1, -1 é pra corrigir a posição
-// 						//pega as sequencias de bits relevantes
+    // 		if( i == (pow(2,aux)) ){ // insere bit de contole
 
-// 						/* trabalho como se fossem números inteiros e somo, 
-// 						os bits relevantes são o próprio bit de controle e os bits de mensagem à seguir,
-// 						o valor inicial dos bits de controle foi calculado na codificação de hamming */
-// 					}
+    // 			final.push_back(0); // bit de controle, valor é irrelevante agora
+    // 			aux++; // prepara pro próximo bit de contole
+    // 		}
 
-// 					l += pow(2,i); //incrementa a condição de parada para o início da próxima sequência de bits relevantes
+    // 		else { // insere bit de mensagem
+    // 			final.push_back(quadro[j]); //insere bit de mensagem com valor correto
+    // 			j++; // prepara para o próximo bit de mensagem
+    // 		}
+    // 	}
 
-// 				}
+    // /////////////////////////////// Valor dos bits de controle e mensagem final ///////////////////////////////////////////////////
 
-// 				if(l > tamanho + 1)break; // acabou o quadro, para de procurar bits
-// 			}
+    // 	tamanho = final.size(); // tamanho do quadro final a ser enviado
 
-// 			aux = (aux%2); // aux é inteiro, isso pega o resto da divisão por 2 para decidir se é um bit 1 ou 0
-// 			quadro[i-1] 	= aux; // atualiza o bit de controle, se n tiver erros todos eles serão zero
-// 			aux = 0; // reinicia aux
-// 		}	
-// 	}
+    // 	j = 0; aux = 0;
 
-// 	////////////// Leitura do quadro pós recalculo dos bits de controle/////////////////////////////
+    // 	for(i = 1; i < tamanho + 1; i++) { // vou percorrer o vetor final para atualizar os valores de bits de controle
 
-// 	j = 0; aux = 0;
+    // 		if( i == pow(2,j) ){ // descobre se é bit de controle
 
-// 	for( i = 1; i < tamanho +1; i++){ // +1 pq usamos pow pra identificar bits de controle
+    // 			j++;// pepara para pegar o próximo bit de controle
+    // 			l = i; // auxiliar para decidir quais bits devem ser considerados naquele bit de controle
 
-// 		if(pow(2,j) == i){ // acha bit de controle
-			
-// 			if(quadro[i-1] == 1) { // lê bit de controle, -1 é a correção da posição no vetor
+    // 			for(k = 1; k <= l; k++){ // coleto os bits relevantes para o bit de controle
 
-// 				cout << "Erro detectado pelo bit de controle C" << i << "\n"; //printa o controle que marca erro
-// 				aux += i; // aux vai somar os valores de bit de controle que marcam erro pra identificar o bit errado
-// 			}
+    // /* trabalho como se fossem números inteiros e somo, os bits relevantes são o próprio bit de controle
+    // e os bits de mensagem à seguir, o valor inicial de todos os bits de controle é zero para permitir a soma */
 
-// 			j++; // prepara para pegar o próximo bit de controle
-// 		}
-// 	}
+    // 				if(k == l){ // verifica se é inicio de uma sequência de bits relevantes
+    // 					for( m = k; m < k+i; m++ ){
 
-// 	j = 0; flag = 1;
+    // 						aux += final[k-1]; // vetores começam em zero, mas k começou em 1, -1 é pra corrigir a posição
+    // 						//pega as sequencias de bits relevantes
+    // 					}
 
-// 	if(aux != 0){ //caso erro seja detectado
+    // 					l += pow(2,i); //incrementa a condição de parada para o início da próxima sequência de bits relevantes
 
-// 		cout << "O bit errado é o bit número "<< aux << "que é um bit de "; // a partir daki até o fim do if acima é opcional e perda de tempo pra explicar, mas eu fiz mesmo assim
+    // 				}
 
-// 		for(i = 0; i < aux; i++){ 
-// 			if(pow(2,i) == aux){ //erro no bit de controle
-// 				cout << "controle \n";
-// 				flag = 0; // impede o próximo print
-// 			}
-// 			else if(pow(2,i) > aux) break;// se não for um bit de controle interrompe antes do fim do loop para poupar tempo 
-// 		}
+    // 				if(l > tamanho + 1)break; // acabou o quadro, para de procurar bits
+    // 			}
+    // 			aux = (aux%2); // aux é inteiro, isso pega o resto da divisão por 2 para decidir se é um bit 1 ou 0
+    // 			final[i-1] = aux; // atualiza o bit de controle, no início tinha valor zero
+    // 			aux = 0; // reinicia aux
+    // 		}
+    // 	}
+    // 	return final;
+    // }
 
-// 		if(flag) cout<< "mensagem \n"; //erro no bit de mensagem
+    // /////// Fim da codificação de Hamming ///////////////////////////////////////////////////////////////////////////////////////
 
-// 	} // fim da perda de tempo inútil que eu fiz pq quiz.
+    // Quadro ControladorCodigoDeHamming::controlarErros(const Quadro& quadro){
 
-// 	////// print do quadro corrigido com bits de controle ainda ////
-// 	for(i=0; i < tamanho; i++){
-// 		cout << " " << quadro[i] << " ";
-// 	}
+    // 	int i,j,k,l,m, aux, tamanho, potencia;
+    // 	bool flag;
 
-// 	cout << "\n"; // fim fo print do quadro com bits de controle
+    // //////////////////////////// Número de Bits de controle ///////////////////////////////////////////////////////////////////
 
-// 	///////////// Mensagem no lado do receptor já corrigida e sem bits de controle ///////////////
+    // 	i = 0; // auxiliar do loop
+    // 	tamanho = quadro.size(); //tamanho do quadro
+    // 	flag = 1; //interrupção do loop
 
-// 	Quadro final; // mensagem no lado do receptor
-// 	j= 0 ;
+    // 	while(flag){
 
-// 	for( i = 1 ; i < tamanho + 1 ; i++){
-// 		if(pow(2,j) != i){ //só põe se não for bit de controle
-// 			final.push_back(quadro[i-1]); // -1 é correção de posição
-// 		}
-// 		else{ j++;} // passa pro próximo bit de controle
-// 	}
+    // 		if( ( pow(2,i) ) > tamanho){ // descobre o número de bits de controle, maior a uma potência de 2 quer dizer q já ultrapassou o limite
+    // 			flag = 0; //interrompe o loop
+    // 			potencia = i; //desobre o número de bits de controle existentes no quadro
+    // 			// OBS: não precisa do +1, pq só interrompe dps de passar
+    // 		}
 
-// 	return final; //retornei o que recebi corrigido em até 1 bit
+    // 		i++; //incrementa i para aumentar o número de bits de controle caso não seja suficiente
+    // 	}
 
+    // 	///// Recálculo dos bits de controle ///////////////////////////////////////////////////////////
 
-// }
+    // 	j = 0; aux = 0;
 
+    // 	for(i = 1; i < tamanho + 1; i++) { // vou percorrer o quadro para recalcular os valores de bits de controle
 
-/// fim da decodificação de hamming ////////////////////////////////////////////////////////////
+    // 		if( i == pow(2,j) ){ // descobre se é bit de controle
+
+    // 			j++;// pepara para pegar o próximo bit de controle
+    // 			l = i; // auxiliar para decidir quais bits devem ser considerados naquele bit de controle
+
+    // 			for(k = 1; k <= l; k++){ // coleto os bits relevantes para o bit de controle
+
+    // 				if(k == l){ // verifica se é inicio de uma sequência de bits relevantes
+    // 					for( m = k; m < k+i; m++ ){
+
+    // 						aux += quadro[k-1]; // vetores começam em zero, mas k começou em 1, -1 é pra corrigir a posição
+    // 						//pega as sequencias de bits relevantes
+
+    // 						/* trabalho como se fossem números inteiros e somo,
+    // 						os bits relevantes são o próprio bit de controle e os bits de mensagem à seguir,
+    // 						o valor inicial dos bits de controle foi calculado na codificação de hamming */
+    // 					}
+
+    // 					l += pow(2,i); //incrementa a condição de parada para o início da próxima sequência de bits relevantes
+
+    // 				}
+
+    // 				if(l > tamanho + 1)break; // acabou o quadro, para de procurar bits
+    // 			}
+
+    // 			aux = (aux%2); // aux é inteiro, isso pega o resto da divisão por 2 para decidir se é um bit 1 ou 0
+    // 			quadro[i-1] 	= aux; // atualiza o bit de controle, se n tiver erros todos eles serão zero
+    // 			aux = 0; // reinicia aux
+    // 		}
+    // 	}
+
+    // 	////////////// Leitura do quadro pós recalculo dos bits de controle/////////////////////////////
+
+    // 	j = 0; aux = 0;
+
+    // 	for( i = 1; i < tamanho +1; i++){ // +1 pq usamos pow pra identificar bits de controle
+
+    // 		if(pow(2,j) == i){ // acha bit de controle
+
+    // 			if(quadro[i-1] == 1) { // lê bit de controle, -1 é a correção da posição no vetor
+
+    // 				cout << "Erro detectado pelo bit de controle C" << i << "\n"; //printa o controle que marca erro
+    // 				aux += i; // aux vai somar os valores de bit de controle que marcam erro pra identificar o bit errado
+    // 			}
+
+    // 			j++; // prepara para pegar o próximo bit de controle
+    // 		}
+    // 	}
+
+    // 	j = 0; flag = 1;
+
+    // 	if(aux != 0){ //caso erro seja detectado
+
+    // 		cout << "O bit errado é o bit número "<< aux << "que é um bit de "; // a partir daki até o fim do if acima é opcional e perda de tempo pra explicar, mas eu fiz mesmo assim
+
+    // 		for(i = 0; i < aux; i++){
+    // 			if(pow(2,i) == aux){ //erro no bit de controle
+    // 				cout << "controle \n";
+    // 				flag = 0; // impede o próximo print
+    // 			}
+    // 			else if(pow(2,i) > aux) break;// se não for um bit de controle interrompe antes do fim do loop para poupar tempo
+    // 		}
+
+    // 		if(flag) cout<< "mensagem \n"; //erro no bit de mensagem
+
+    // 	} // fim da perda de tempo inútil que eu fiz pq quiz.
+
+    // 	////// print do quadro corrigido com bits de controle ainda ////
+    // 	for(i=0; i < tamanho; i++){
+    // 		cout << " " << quadro[i] << " ";
+    // 	}
+
+    // 	cout << "\n"; // fim fo print do quadro com bits de controle
+
+    // 	///////////// Mensagem no lado do receptor já corrigida e sem bits de controle ///////////////
+
+    // 	Quadro final; // mensagem no lado do receptor
+    // 	j= 0 ;
+
+    // 	for( i = 1 ; i < tamanho + 1 ; i++){
+    // 		if(pow(2,j) != i){ //só põe se não for bit de controle
+    // 			final.push_back(quadro[i-1]); // -1 é correção de posição
+    // 		}
+    // 		else{ j++;} // passa pro próximo bit de controle
+    // 	}
+
+    // 	return final; //retornei o que recebi corrigido em até 1 bit
+
+    // }
+
+    /// fim da decodificação de hamming ////////////////////////////////////////////////////////////
