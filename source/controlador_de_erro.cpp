@@ -168,40 +168,21 @@ Bit ControladorBitParidadeImpar::bitParidadeImpar(const Quadro& quadro) {
 
 Quadro ControladorCodigoDeHamming::adicionarControle(const Quadro& quadro) {
 	Quadro quadro_controlado = quadro;
-	quadro_controlado = this->shiftRight(quadro_controlado); // [0] ++ quadro_controlado
 	quadro_controlado = this->moverBitsDados(quadro_controlado);
 	quadro_controlado = this->adicionarBitsParidade(quadro_controlado);
-	quadro_controlado = this->shiftLeft(quadro_controlado); // remover shiftRight
 	return quadro_controlado;
-}
-
-Quadro ControladorCodigoDeHamming::shiftRight(const Quadro& quadro) {
-	Quadro shifted;
-	shifted.push_back(0);
-	for (int i = 0; i < quadro.size(); ++i) {
-		shifted.push_back(quadro[i]);
-	}
-	return shifted;
-}
-
-Quadro ControladorCodigoDeHamming::shiftLeft(const Quadro& quadro) {
-	Quadro shifted;
-	for (int i = 1; i < quadro.size(); ++i) {
-		shifted.push_back(quadro[i]);
-	}
-	return shifted;
 }
 
 Quadro ControladorCodigoDeHamming::moverBitsDados(const Quadro& quadro) {
 	Quadro movidos;
-	int proxima_potencia2 = 1; // Quarda a próxima potência de 2;
-	int idx_quadro = 0; // Guarda o índice do último bit de quadro adicionado a movidos.
-	while (idx_quadro != quadro.size()) {
-		if (movidos.size() == proxima_potencia2) {
-			movidos.push_back(0);
+	int proxima_potencia2 = 1; // Quarda a próxima potência de 2.
+	int idx_quadro = 1; // Guarda o índice do primeiro termo de quadro ainda não passado para hamming.
+	while (idx_quadro != quadro.size() + 1) {
+		if (movidos.size() + 1 == proxima_potencia2) {
+			movidos.push_back(0); // Coloca 0 onde deve ser um bit de paridade.
 			proxima_potencia2 = proxima_potencia2 * 2;
 		} else {
-			movidos.push_back(quadro[idx_quadro]);
+			movidos.push_back(quadro[idx_quadro - 1]);
 			idx_quadro = idx_quadro + 1;
 		}
 	}
@@ -210,24 +191,24 @@ Quadro ControladorCodigoDeHamming::moverBitsDados(const Quadro& quadro) {
 
 Quadro ControladorCodigoDeHamming::adicionarBitsParidade(const Quadro& quadro) {
 	Quadro hamming = quadro;
-	for (int potencia2 = 1; potencia2 < quadro.size(); potencia2 = potencia2 * 2) {
-		hamming[potencia2] = this->bitParidade(potencia2, quadro);
+	for (int potencia2 = 1; potencia2 <= quadro.size(); potencia2 = potencia2 * 2) {
+		hamming[potencia2 - 1] = this->bitParidade(potencia2, quadro);
 	}
 	return hamming;
 }
 
 Bit ControladorCodigoDeHamming::bitParidade(int potencia2, const Quadro &quadro) {
 	Bit bit_paridade = 0;
-	for (int idx = potencia2 + 1; idx < quadro.size(); ++idx) {
+	for (int idx = potencia2 + 1; idx <= quadro.size(); ++idx) {
 		if ((potencia2 & idx) != 0) { // and bit a bit
-			bit_paridade = bit_paridade xor quadro[idx];
+			bit_paridade = bit_paridade xor quadro[idx - 1];
 		}
 	}
 	return bit_paridade;
 }
 
 Quadro ControladorCodigoDeHamming::controlarErros(const Quadro& hamming_recebido) {
-    Quadro quadro_recebido = this->shiftLeft(this->removerBitsParidade(this->shiftRight(hamming_recebido)));
+    Quadro quadro_recebido = this->removerBitsParidade(hamming_recebido);
     Quadro hamming_teorico = this->adicionarControle(quadro_recebido);
     std::vector<int> paridades_divergentes = this->indicesDosBitsParidadeDiferentes(hamming_recebido, hamming_teorico);
     if (paridades_divergentes.size() > 0) {
@@ -240,11 +221,11 @@ Quadro ControladorCodigoDeHamming::controlarErros(const Quadro& hamming_recebido
 Quadro ControladorCodigoDeHamming::removerBitsParidade(const Quadro& quadro) {
     Quadro sem_bits_paridade;
     int proxima_potencia2 = 1;
-    for (int idx = 0; idx < quadro.size(); ++idx) {
+    for (int idx = 1; idx <= quadro.size(); ++idx) {
         if (idx == proxima_potencia2) {
             proxima_potencia2 = proxima_potencia2 * 2;
         } else {
-            sem_bits_paridade.push_back(quadro[idx]);
+            sem_bits_paridade.push_back(quadro[idx - 1]);
         }
     }
     return sem_bits_paridade;
@@ -261,14 +242,13 @@ std::vector<int> ControladorCodigoDeHamming::indicesDosBitsParidadeDiferentes(co
 }
 
 Quadro ControladorCodigoDeHamming::corrigirQuadro(const Quadro& quadro, const std::vector<int>& paridades_divergentes) {
-    int bit_errado = 0;
+    int bit_errado = 0; // bit_errado = sum paridades_divergentes;
     for (int i = 0; i < paridades_divergentes.size(); ++i) {
         bit_errado = bit_errado + paridades_divergentes[i];
     }
-    Quadro corrigido = this->moverBitsDados(this->shiftRight(quadro));
-    corrigido[bit_errado] = !corrigido[bit_errado];
+    Quadro corrigido = this->moverBitsDados(quadro);
+    corrigido[bit_errado-1] = !corrigido[bit_errado-1];
     corrigido = this->removerBitsParidade(corrigido);
-    corrigido = this->shiftLeft(corrigido);
     return corrigido;
 }
 
