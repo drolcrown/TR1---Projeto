@@ -194,7 +194,7 @@ Quadro ControladorCodigoDeHamming::shiftLeft(const Quadro& quadro) {
 	}
 	return shifted;
 }
-
+ 
 Quadro ControladorCodigoDeHamming::moverBitsDados(const Quadro& quadro) {
 	Quadro movidos;
 	int proxima_potencia2 = 1; // Quarda a próxima potência de 2;
